@@ -1,4 +1,4 @@
-package trilateralXtra.AppColors;
+package trilateralXtra.color;
 //TODO: need to check color requirements for other targets from Quick
 #if (kha||heaps) 
 @:enum
