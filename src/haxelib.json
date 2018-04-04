@@ -1,0 +1,11 @@
+{
+  "name"         : "TrilateralXtra",
+  "url"          : "https://github.com/nanjizal/trilateralXtra",
+  "license"      : "MIT",
+  "tags"         : ["cross","triangle","drawing","flash","openfl","nme","js","java","canvas","swing","luxe","kha"],
+  "description"  : "TrilateralXtra provides non core and partially developed features for Trilateral a triangle contour engine for Haxe cross target development.",
+  "version"      : "0.0.1",
+  "releasenote"  : "Initial release",
+  "contributors" : ["Nanjizal"],
+  "dependencies" : {}
+}
