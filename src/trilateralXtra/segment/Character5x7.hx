@@ -1,5 +1,5 @@
 package trilateralXtra.segment;
-import trilateral.helper.ShapesGeneric;
+import trilateral.helper.Shapes;
 import trilateralXtra.segment.DotMatrix;
 import trilateral.tri.Triangle;
 enum PixelShape {
@@ -17,7 +17,7 @@ enum PixelShape {
 class Character5x7 {
     public static inline var GOLDEN_RATIO:       Float = 1.61803398874989484820;
     public static inline var FIVESEVEN_RATIO:    Float = 7/5;
-    public var shapes:      ShapesGeneric;
+    public var shapes:      Shapes;
     public var ratio:       Float;
     public var bgIndex:     Int;
     public var shapeIndex:  Int;
@@ -27,7 +27,7 @@ class Character5x7 {
     public var bgColor:     Int;
     public var dotMatrix:   DotMatrix;
     var pixelShape:         PixelShape;
-    public function new(    shapes_: ShapesGeneric, pixelShape_: PixelShape
+    public function new(    shapes_: Shapes, pixelShape_: PixelShape
                         ,   onColor_: Int, offColor_: Int, bgColor_: Int
                         ,   ?ratio_: Float ){
         ratio = ( ratio == null )? FIVESEVEN_RATIO: ratio_;
