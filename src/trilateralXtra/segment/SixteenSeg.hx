@@ -114,7 +114,7 @@ class SixteenSeg{
             case '[':   a2(); i(); l(); d2();
             case '\\':  h(); m();
             case ']':   a1(); i(); l(); d1();
-            case '':    k(); m();
+            case '^':    k(); m();
             case '_':   d1(); d2();
             case '`':   h();
             case 'a':   g1(); e(); l(); d();
@@ -132,8 +132,8 @@ class SixteenSeg{
             case 'm':   e(); g(); l(); c();
             case 'n':   e(); g(); c();
             case 'o':   e(); g(); d(); c();
-            case 'p':   d1(); l(); m(); g2(); c();
-            case 'q':   e(); g(); c(); m(); d();
+            case 'p':   f(); a1(); i(); g1(); e();
+            case 'q':   f(); a1(); i(); g1(); l();
             case 'r':   e(); g();
             case 's':   g2(); m(); d();
             case 't':   i(); g(); l(); d2();
@@ -175,26 +175,26 @@ class SixteenSeg{
         var tri = triArr;
         var l_ = tri.length;
         var third = 1/3;
-        tri[ l_ ] = triFactory( 1., 0.5, 1.5, 0., 5., 0. );
+        tri[ l_ ] = triFactory( 1., 0.5,    1.5, 0.,          5.,         0. );
         l_++;
-        tri[ l_ ] = triFactory( 1., 0.5, 5., 0., 5. + third, 0.5 );
+        tri[ l_ ] = triFactory( 1., 0.5,    5., 0.,           5. + third, 0.5 );
         l_++;
-        tri[ l_ ] = triFactory( 1., 0.5, 5 + third, 0.5, 5 + third, 2. );
+        tri[ l_ ] = triFactory( 1., 0.5,    5 + third, 0.5,   5 + third, 2. );
         l_++;
-        tri[ l_ ] = triFactory( 1., 0.5, 5 + third, 2., 2.5, 2. );
+        tri[ l_ ] = triFactory( 1., 0.5,    5 + third, 2.,    2.5,      2. );
     }
     inline
     function a2(){
         var tri = triArr;
         var l_ = tri.length;
         var third = 1/3;
-        tri[ l_ ] = triFactory( 6. - third, 0.5, 6., 0., 9.5, 0. );
+        tri[ l_ ] = triFactory( 6. - third, 0.5,   6., 0.,    9.5,       0. );
         l_++;
-        tri[ l_ ] = triFactory( 6. - third, 0.5, 9.5, 0., 10., 0.5 );
+        tri[ l_ ] = triFactory( 6. - third, 0.5,   9.5, 0.,   10.,       0.5 );
         l_++;
-        tri[ l_ ] = triFactory( 6. - third, 0.5, 10., 0.5, 8.5, 2. );
+        tri[ l_ ] = triFactory( 6. - third, 0.5,   10., 0.5,  8.5,       2. );
         l_++;
-        tri[ l_ ] = triFactory( 6 - third, 0.5, 8.5, 0.5, 6 - third, 2.0 );
+        tri[ l_ ] = triFactory( 6 - third, 0.5,    8.5, 2.,  6 - third, 2. );
     }
     inline
     function b(){
@@ -206,7 +206,7 @@ class SixteenSeg{
         l_++;
         tri[ l_ ] = triFactory( 9., 7.5, 11., 7.5, 10.5, 8.5 );
         l_++;
-        tri[ l_ ] = triFactory( 9., 2.5, 11., 7.5, 10.5, 8.5 );
+        tri[ l_ ] = triFactory( 9., 2.5, 11., 7.5, 9., 7.5 );
     }
     inline
     function c(){
@@ -219,19 +219,19 @@ class SixteenSeg{
         tri[ l_ ] = triFactory( 9., 10.5, 11., 16.5, 9., 15.5 );
         l_++;
         tri[ l_ ] = triFactory( 9., 15.5, 11., 16.5, 10.5, 17. );
-    }
+    } 
     inline
     function d1(){
         var tri = triArr;
         var l_ = tri.length;
         var third = 1/3;
-        tri[ l_ ] = triFactory( 1., 17.5, 2.5, 16., 5. + third, 16. );
+        tri[ l_ ] = triFactory( 1., 17.5,        2.5, 16.,    5. + third, 16. );
         l_++;
-        tri[ l_ ] = triFactory( 1., 17.5, 5. + third, 16., 5. + third, 17.5 );
+        tri[ l_ ] = triFactory( 1., 17.5, 5. + third, 16.,    5. + third, 17.5 );
         l_++;
-        tri[ l_ ] = triFactory( 1., 17.5, 5. + third, 17.5, 5., 18. );
+        tri[ l_ ] = triFactory( 1., 17.5, 5. + third, 17.5,   5., 18. );
         l_++;
-        tri[ l_ ] = triFactory( 1., 17.5, 5., 18., 1.5, 18. );
+        tri[ l_ ] = triFactory( 1., 17.5,         5., 18.,    1.5, 18. );
         l_++;
     }
     inline
@@ -239,13 +239,13 @@ class SixteenSeg{
         var tri = triArr;
         var l_ = tri.length;
         var third = 1/3;
-        tri[ l_ ] = triFactory( 6. - third, 17.5, 6. - third, 16., 8.5, 16. );
+        tri[ l_ ] = triFactory( 6. - third, 17.5,   6. - third, 16., 8.5, 16. );
         l_++;
-        tri[ l_ ] = triFactory( 6. - third, 17.5, 8.5, 16., 10., 17.);
+        tri[ l_ ] = triFactory( 6. - third, 17.5,   8.5, 16.,        10., 17.5 );
         l_++;
-        tri[ l_ ] = triFactory( 6. - third, 17.5, 10.5, 17., 9.5, 18. );
+        tri[ l_ ] = triFactory( 6. - third, 17.5,   10, 17.5,       9.5, 18. );
         l_++;
-        tri[ l_ ] = triFactory( 6. - third, 17.5, 9.5, 18., 6., 18. );
+        tri[ l_ ] = triFactory( 6. - third, 17.5,   9.5, 18.,        6., 18. );
     }
     inline
     function e(){
@@ -276,34 +276,34 @@ class SixteenSeg{
         var tri = triArr;
         var l_ = tri.length;
         var third = 1/3;
-        tri[ l_ ] = triFactory( 0.5, 9., 2.5, 8., 2.5, 10. );
+        tri[ l_ ] = triFactory( 0.5, 9.,    2.5,        8.,  2.5,       10. );
         l_++;
-        tri[ l_ ] = triFactory( 2.5, 8., 5. + third, 8., 5 + third, 10. );
+        tri[ l_ ] = triFactory( 2.5, 8.,    5. + third, 8.,  5 + third, 10. );
         l_++;
-        tri[ l_ ] = triFactory( 2.5, 8., 5. + third, 10., 2.5, 10. );
+        tri[ l_ ] = triFactory( 2.5, 8.,    5. + third, 10., 2.5,       10. );
     }
     inline
     function g2(){
         var tri = triArr;
         var l_ = tri.length;
         var third = 1/3;
-        tri[ l_ ] = triFactory( 6. - third, 8., 8.5, 8., 8.5, 10. );
+        tri[ l_ ] = triFactory( 6. - third, 8.,       8.5,   8.,     8.5, 10. );
         l_++;
-        tri[ l_ ] = triFactory( 6. - third, 8.5, 8.5, 10., 6. - third, 10. );
+        tri[ l_ ] = triFactory( 6. - third, 8,      8.5,  10.,    6. - third, 10.);
         l_++;
-        tri[ l_ ] = triFactory( 8.5, 8., 10.5, 9., 8.5, 10.);
+        tri[ l_ ] = triFactory( 8.5,        8.,       10.5,  9.,     8.5, 10 );
     }
     inline
     function h(){
         var tri = triArr;
         var l_ = tri.length;
-        tri[ l_ ] = triFactory( 2.5, 2.5, 3.5, 2.5, 4., 4. );
+        tri[ l_ ] = triFactory( 2.5, 2.5,  3.5, 2.5,  4., 4. );
         l_++;
-        tri[ l_ ] = triFactory( 4., 4., 5., 7.5, 4., 7.5 );
+        tri[ l_ ] = triFactory( 4., 4.,    5., 7.5,   4., 7.5 );
         l_++;
-        tri[ l_ ] = triFactory( 2.5, 2.5, 4., 4., 2.5, 5. );
+        tri[ l_ ] = triFactory( 2.5, 2.5,  4., 4.,    2.5, 5. );
         l_++;
-        tri[ l_ ] = triFactory( 2.5, 5., 4., 4., 4., 7.5 );
+        tri[ l_ ] = triFactory( 2.5, 5.,   4., 4.,    4., 7.5 );
     }
     inline
     function i(){
@@ -331,13 +331,13 @@ class SixteenSeg{
     function k(){
         var tri = triArr;
         var l_ = tri.length;
-        tri[ l_ ] = triFactory( 2.5, 13., 4., 10.5, 5., 10.5 );
+        tri[ l_ ] = triFactory( 2.5, 13.,    4., 10.5,     5., 10.5 );
         l_++;
-        tri[ l_ ] = triFactory( 2.5, 13., 5.5, 10.5, 4., 14. );
+        tri[ l_ ] = triFactory( 2.5, 13.,    5, 10.5,    4., 14. );
         l_++;
-        tri[ l_ ] = triFactory( 2.5, 13., 4., 14., 3.5, 15. );
+        tri[ l_ ] = triFactory( 2.5, 13.,    4., 14.,      3.5, 15. );
         l_++;
-        tri[ l_ ] = triFactory( 2.5, 13., 3.5, 15., 2.5, 15. );
+        tri[ l_ ] = triFactory( 2.5, 13.,    3.5, 15.,     2.5, 15. );
     }
     inline
     function l(){
@@ -353,7 +353,7 @@ class SixteenSeg{
     function m(){
         var tri = triArr;
         var l_ = tri.length;
-        tri[ l_ ] = triFactory( 6., 10.5, 6.5, 10., 8.5, 13.);
+        tri[ l_ ] = triFactory( 6., 10.5, 6.5, 10., 8.5, 13. );
         l_++;
         tri[ l_ ] = triFactory( 6., 10.5, 8.5, 13., 7., 14. );
         l_++;
