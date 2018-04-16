@@ -1,5 +1,5 @@
 package trilateralXtra.segment;
-import trilateral.helper.Shapes;
+import trilateral.polys.Shapes;
 import trilateralXtra.segment.DotMatrix;
 import trilateral.tri.Triangle;
 enum PixelShape {
