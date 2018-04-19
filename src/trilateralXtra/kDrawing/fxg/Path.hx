@@ -60,24 +60,19 @@ abstract Path( Nodule ) from Nodule to Nodule {
             var pen = imageDrawing.pathFactory();
             pen.width = lineWidth;
             ( new SvgPath( pen ) ).parse( d );
-            if( hasFill ) fill( imageDrawing, pen.points, solidColor );
+            if( hasFill ) imageDrawing.fill( pen.points, solidColor );
             imageDrawing.triangles.addArray( imageDrawing.count, pen.trilateralArray, lineColor );
         } else if( hasFill ){
             var fillOnly = new FillOnly();
             fillOnly.width = 1;
             ( new SvgPath( fillOnly ) ).parse( d );
-            fill( imageDrawing, fillOnly.points, solidColor );
+            imageDrawing.fill( fillOnly.points, solidColor );
         }
-    }
-    inline
-    function fill( imageDrawing: ImageDrawing, p: Array<Array<Float>>, colorID: Int ){
-        var l = p.length;
-        for( i in 0...l ) if( p[ i ].length != 0 ) imageDrawing.fill( p[ i ], colorID );
     }
     inline
     function parseColor( hashColor: String ): Int {
         var col = hashColor.substr( 1 );
-        trace( ' col ' + col );
+        //trace( ' col ' + col );
         return 0xFF000000 + Std.parseInt( '0x' + col );
     }
 }
