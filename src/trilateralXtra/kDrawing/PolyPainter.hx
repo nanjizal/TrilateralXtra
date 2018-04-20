@@ -194,12 +194,17 @@ class PolyPainter{
         }
     }
     public function drawFillTriangle( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
-                                    ,     color: Color ){
-        drawGradientTriangle( ax, ay, bx, by, cx, cy, color, color, color );
+                                    ,     color: Color, ?alpha: Float = 1. ){
+        drawGradientTriangle( ax, ay, bx, by, cx, cy, color, color, color, alpha );
     }
     public inline function drawGradientTriangle( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
-                                    ,     color0: Color, color1: Color, color2: Color ){
+                                    ,     color0: Color, color1: Color, color2: Color, ?alpha: Float = 1. ){
         if( shaderMode == ImageMode ) flush();
+        if( alpha != 1. ){
+            color0.A = alpha;
+            color1.A = alpha;
+            color2.A = alpha;
+        }
         var pos = posGradient;
         verticesGrad.set( pos, ax );
         verticesGrad.set( pos +  1, ay );
@@ -225,11 +230,11 @@ class PolyPainter{
         posGradient = pos + 21;
         gradBufferIndex++;
     }
-    public function drawImage( img: Image, ?x: Float = 0, ?y: Float = 0, ?w: Null<Float>, ?h: Null<Float> ){
+    public function drawImage( img: Image, ?x: Float = 0, ?y: Float = 0, ?w: Null<Float>, ?h: Null<Float>, ?alpha: Float = 1. ){
         if( w == null ) w = img.width;
         if( h == null ) h = img.height;
-        drawImageTriangle( x, y, x+w, y, x+w, y+h, 0, 0, 1, 0, 1, 1, img );
-        drawImageTriangle( x, y, x+w, y+h, x, y+h, 0, 0, 1, 1, 0, 1, img );
+        drawImageTriangle( x, y, x+w, y, x+w, y+h, 0, 0, 1, 0, 1, 1, img, alpha );
+        drawImageTriangle( x, y, x+w, y+h, x, y+h, 0, 0, 1, 1, 0, 1, img, alpha );
     }
     public function drawImageTriangle( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
                                     ,  au: Float, av: Float, bu: Float, bv: Float, cu: Float, cv: Float
@@ -242,8 +247,13 @@ class PolyPainter{
     // still uses image shader.
     public inline function drawImageTriangleGradient( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
                                     ,  au: Float, av: Float, bu: Float, bv: Float, cu: Float, cv: Float
-                                    , img: Image, colorA: Color, colorB: Color, colorC: Color ){
+                                    , img: Image, colorA: Color, colorB: Color, colorC: Color, ?alpha: Float = 1. ){
         if( imgLast != img || shaderMode == GradientMode ) flush();
+        if( alpha != 1. ){
+            colorA.A = alpha;
+            colorB.A = alpha;
+            colorC.A = alpha;
+        }
         imgLast = img; 
         var pos = posImage;
         verticesImg.set( pos, ax );
