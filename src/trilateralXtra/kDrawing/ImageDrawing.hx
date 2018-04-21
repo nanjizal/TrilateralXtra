@@ -90,6 +90,11 @@ class ImageDrawing {
     function fill( p: Array<Array<Float>>, colorID: Int ){
         throw 'please extend ImageDrawing with implementation';
     }
+    // used to help show random fills
+    public
+    function fillRnd( p: Array<Array<Float>>, rnd: Int ){
+        throw 'please extend ImageDrawing with implementation';
+    }
     public
     function pathFactory(): Base {
         throw 'please extend ImageDrawing with implementation';
