@@ -9,9 +9,6 @@ import trilateral.path.Crude;
 import trilateral.path.Fine;
 import trilateral.path.Base;
 import trilateralXtra.kDrawing.ImageDrawing;
-typedef HasAttribute = {
-    public function attributeAdd( at: { name: String,value: String } ): Void;
-}
 class Svg{
     public var imageDrawing: ImageDrawing;
     public var groups: Array<Group>;//
@@ -40,7 +37,6 @@ class Svg{
     public inline
     function parseGroup( kid: Nodule ): Group {
         var g: Group = {};
-        //addAttributes( cast g, kid );
         for( at in kid.attributes( [] ) ) g.attributeAdd( at );
         // trace( 'g ' + g );
         group = g;
@@ -52,17 +48,12 @@ class Svg{
     public inline
     function parsePath( kid: Nodule ): Path {
         var p: Path = {};
-        //addAttributes( cast p, kid );
         for( at in kid.attributes( [] ) ) p.attributeAdd( at );
         // trace( 'path ' + p );
         // composite group with group properties above like matrix in realistic render, pushing poping on group
         // arigate group values?
         renderPath( group, p ); 
         return p;
-    }
-    public inline static 
-    function addAttributes( hasAtt: HasAttribute, kid: Nodule ){
-        for( at in kid.attributes( [] ) ) hasAtt.attributeAdd( at );
     }
     public function renderPath( group: Group, path: Path ){
         var black            = imageDrawing.colorId( 0xFF000000 );
