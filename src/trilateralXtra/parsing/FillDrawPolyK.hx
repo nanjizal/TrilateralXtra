@@ -1,12 +1,11 @@
-package trilateralXtra.kDrawing;
+package trilateralXtra.parsing;
 import trilateral.tri.TriangleArray;
 import trilateral.tri.Triangle;
 import trilateral.path.Fine;
 import trilateral.path.Base;
-import trilateralXtra.kDrawing.PolyPainter;
 import hxPolyK.PolyK;
-import trilateralXtra.kDrawing.ImageDrawing;
-class ImageDrawingPolyK extends ImageDrawing {
+import trilateral.parsing.FillDraw;
+class FillDrawPolyK extends FillDraw {
     public
     function new( ?w: Int, ?h: Int ){
         super( w, h );

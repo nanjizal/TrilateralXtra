@@ -10,18 +10,20 @@ import trilateral.tri.Triangle;
 import trilateral.path.Fine;
 import trilateral.path.Base;
 import trilateralXtra.kDrawing.PolyPainter;
+import trilateral.parsing.FillDraw;
 class ImageDrawing {
     public var image:       Image;
-    public var count        = 0;
-    public var colors       = new Array<Int>();
-    public var triangles    = new TriangleArray();
+    public var fillDraw:    FillDraw;
     public var polyPainter:        PolyPainter;
     public
-    function new( ?w: Int, ?h: Int ){
+    function new( ?fillDraw_: FillDraw ){
+        fillDraw                        = fillDraw_;
         polyPainter                     = new PolyPainter();
         polyPainter.textureAddressingX  = Repeat;
         polyPainter.textureAddressingY  = Repeat;
-        if( w != null && h != null ) image = Image.createRenderTarget( w, h, null, DepthStencilFormat.NoDepthAndStencil );
+        if( fillDraw != null ){
+            image = Image.createRenderTarget( fillDraw.width, fillDraw.height, null, DepthStencilFormat.NoDepthAndStencil, 4 );
+        }
     }
     public 
     function startImage(){
@@ -38,6 +40,8 @@ class ImageDrawing {
     public // perhaps use matrix instead?
     function renderTriangles( scale: Float, cx: Float, cy: Float, ?alpha: Float = 1 ){
         var tri: Triangle;
+        var triangles   = fillDraw.triangles;
+        var colors      = fillDraw.colors;
         //PolyPainter.bufferSize = triangles.length;
         for( i in 0...Std.int( triangles.length ) ){
             tri = triangles[ i ];
@@ -51,6 +55,8 @@ class ImageDrawing {
     public // perhaps use matrix instead?
     function renderGradientTriangles( scale: Float, cx: Float, cy: Float, ?alpha: Float = 1 ){
         var tri: Triangle;
+        var triangles   = fillDraw.triangles;
+        var colors      = fillDraw.colors;
         //PolyPainter.bufferSize = triangles.length;
         for( i in 0...Std.int( triangles.length ) ){
             tri = triangles[ i ];
@@ -65,6 +71,8 @@ class ImageDrawing {
     public // perhaps use matrix instead?
     function renderImageTriangles( scale: Float, cx: Float, cy: Float, ?alpha: Float = 1. ){
         var tri: Triangle;
+        var triangles   = fillDraw.triangles;
+        var colors      = fillDraw.colors;
         //PolyPainter.bufferSize = triangles.length;
         var img1W = 1/image.width;
         var img1H = 1/image.height;
@@ -85,27 +93,5 @@ class ImageDrawing {
             polyPainter.drawImageTriangle( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, image, alpha );
         }
         trace( triangles.length );
-    }
-    public
-    function fill( p: Array<Array<Float>>, colorID: Int ){
-        throw 'please extend ImageDrawing with implementation';
-    }
-    // used to help show random fills
-    public
-    function fillRnd( p: Array<Array<Float>>, rnd: Int ){
-        throw 'please extend ImageDrawing with implementation';
-    }
-    public
-    function pathFactory(): Base {
-        throw 'please extend ImageDrawing with implementation';
-    }
-    public inline
-    function colorId( color: Int ): Int {
-        var id = colors.indexOf( color );
-        if( id == -1 ) {
-            id = colors.length;
-            colors[ id ] = color;
-        }
-        return id;
     }
 }
