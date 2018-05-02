@@ -1,9 +1,9 @@
-package trilateralXtra;
+package trilateralXtra.serialize;
 import trilateral.tri.Trilateral;
 import trilateral.tri.TrilateralArray;
 import hxbit.Serializable;
 
-class TriangleSerializer implements hxbit.Serializable {
+class TrilateralSerializer implements hxbit.Serializable {
     public var trilateral:       Trilateral;
     
     // don't bother storing 'mark' as it's mostly used for debug.
@@ -16,54 +16,54 @@ class TriangleSerializer implements hxbit.Serializable {
     var tempBY: Float;
     var tempCY: Float;
 
-    s:@ public var ax( get, set ): Float;
+    @:s public var ax( get, set ): Float;
     function get_ax(): Float {
-        return triangle.ax;
+        return trilateral.ax;
     }
     function set_ax( val: Float ): Float {
         tempAX = val;
         return val;
     }
     
-    s:@ public var bx( get, set ): Float;
+    @:s public var bx( get, set ): Float;
     function get_bx(): Float {
-        return triangle.bx;
+        return trilateral.bx;
     }
     function set_bx( val: Float ): Float {
         tempBX = val;
         return val;
     }
     
-    s:@ public var cx( get, set ): Float;
+    @:s public var cx( get, set ): Float;
     function get_cx(): Float {
-        return triangle.cx;
+        return trilateral.cx;
     }
     function set_cx( val: Float ): Float {
         tempCX = val;
         return val;
     }
     
-    s:@ public var ay( get, set ): Float;
+    @:s public var ay( get, set ): Float;
     function get_ay(): Float {
-        return triangle.ay;
+        return trilateral.ay;
     }
     function set_ay( val: Float ): Float {
         tempAY = val;
         return val;
     }
     
-    s:@ public var by( get, set ): Float;
+    @:s public var by( get, set ): Float;
     function get_by(): Float {
-        return triangle.by;
+        return trilateral.by;
     }
     function set_by( val: Float ): Float {
         tempBY = val;
         return val;
     }
     
-    s:@ public var cy: Float;
+    @:s public var cy: Float;
     function get_cy(): Float {
-        return triangle.cy;
+        return trilateral.cy;
     }
     function set_cy( val: Float ): Float {
         tempCY = val;

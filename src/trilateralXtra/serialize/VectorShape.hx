@@ -1,13 +1,14 @@
 package trilateralXtra.serialize;
 import trilateral.tri.Trilateral;
 import trilateral.tri.TrilateralArray;
+//import trilateralXtra.serialize.TrilateralSerializer;
 import hxbit.Serializable;
 
 class VectorShape implements hxbit.Serializable {
     @:s public var trilateralSerializeArr: Array<TrilateralSerializer>;
     public function new( triArr: TrilateralArray ){
         // store triangles in in serializable structure.
-        triSerializeArr = toSerializeArray( triArr );
+        trilateralSerializeArr = toSerializeArray( triArr );
     }
     public function getTrilateralArray():TrilateralArray {
         return toTrilateralArray( trilateralSerializeArr );

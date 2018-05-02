@@ -1,6 +1,7 @@
-package trilateralXtra;
+package trilateralXtra.serialize;
 import trilateral.tri.Triangle;
 import trilateral.tri.TriangleArray;
+import trilateral.tri.Trilateral;
 import hxbit.Serializable;
 
 @:enum abstract Store(Int) from Int to Int{
@@ -27,7 +28,7 @@ class TriangleSerializer implements hxbit.Serializable {
     var tempBY: Float;
     var tempCY: Float;
 
-    s:@ public var ax( get, set ): Float;
+    @:s public var ax( get, set ): Float;
     function get_ax(): Float {
         return triangle.ax;
     }
@@ -36,7 +37,7 @@ class TriangleSerializer implements hxbit.Serializable {
         return val;
     }
     
-    s:@ public var bx( get, set ): Float;
+    @:s public var bx( get, set ): Float;
     function get_bx(): Float {
         return triangle.bx;
     }
@@ -45,7 +46,7 @@ class TriangleSerializer implements hxbit.Serializable {
         return val;
     }
     
-    s:@ public var cx( get, set ): Float;
+    @:s public var cx( get, set ): Float;
     function get_cx(): Float {
         return triangle.cx;
     }
@@ -54,7 +55,7 @@ class TriangleSerializer implements hxbit.Serializable {
         return val;
     }
     
-    s:@ public var ay( get, set ): Float;
+    @:s public var ay( get, set ): Float;
     function get_ay(): Float {
         return triangle.ay;
     }
@@ -63,7 +64,7 @@ class TriangleSerializer implements hxbit.Serializable {
         return val;
     }
     
-    s:@ public var by( get, set ): Float;
+    @:s public var by( get, set ): Float;
     function get_by(): Float {
         return triangle.by;
     }
@@ -72,7 +73,7 @@ class TriangleSerializer implements hxbit.Serializable {
         return val;
     }
     
-    s:@ public var cy: Float;
+    @:s public var cy( get, set ): Float;
     function get_cy(): Float {
         return triangle.cy;
     }
@@ -82,7 +83,7 @@ class TriangleSerializer implements hxbit.Serializable {
     }
     
     public function new( ?triangle_: Triangle ){
-        if( triangle != null ) triangle = triangle_;
+        if( triangle_ != null ) triangle = triangle_;
     }
     @:keep
     public function customSerialize( ctx : hxbit.Serializer ){
@@ -93,7 +94,7 @@ class TriangleSerializer implements hxbit.Serializable {
                                     ( if( triangle.id != lastTriangle.id )? true: false );
         */
         // for Simplicity at moment assume to store id's for all Triangles.
-        var needID          = true;
+        var needsID          = true;
         var needsMark       = ( triangle.mark != 0 );
         var needsAlpha      = ( triangle.alpha   != 1. );
         var needsColorID    = ( triangle.colorID != 0xFF000000 );
@@ -103,7 +104,7 @@ class TriangleSerializer implements hxbit.Serializable {
         if( needsID )       add( ID );
         if( needsMark )     add( MARK );
         if( needsAlpha )    add( ALPHA );
-        if( needsColorID )  add( ColorID );
+        if( needsColorID )  add( COLOR_ID );
         if( !colorSame ){
             add( COLOR_A );
             add( COLOR_B );
@@ -121,7 +122,7 @@ class TriangleSerializer implements hxbit.Serializable {
                               ctx.addInt( triangle.colorB );
                               ctx.addInt( triangle.colorC );
         }
-        if( needsDepth )  ctx.addInt( triangle.depth );
+        if( needsDepth )  ctx.addFloat( triangle.depth );
         
     }
     inline public function add( mask: Int ){
@@ -133,15 +134,20 @@ class TriangleSerializer implements hxbit.Serializable {
     @:keep
     public function customUnserialize( ctx : hxbit.Serializer ){
         optionLengthBit = ctx.getInt();
-        triangle = new Triangle( tempAX, tempAY, tempBX, tempBY, tempCX, tempCY );
-        if( optionLengthBit == 0 ) return;
-        if( contains( optionLengthBit, ID ) )       triangle.id      = ctx.getInt();
+        var id = 0;
+        //if( optionLengthBit == 0 ) return;
+        if( contains( optionLengthBit, ID ) )       id               = ctx.getInt();
+        var trilateral = new Trilateral( tempAX, tempAY, tempBX, tempBY, tempCX, tempCY );
+        triangle = Triangle.fromTrilateral( id, trilateral, 0, 0 );
+        /*triangle = new Triangle( id, { x: tempAX, y: tempAY }
+                                   , { x: tempBX, y: tempBY }
+                                   , { x: tempCX, y: tempCY }, 0, 0 );*/
         if( contains( optionLengthBit, MARK ) )     triangle.mark    = ctx.getInt();
         if( contains( optionLengthBit, ALPHA ) )    triangle.alpha   = ctx.getFloat();
-        if( contains( optionLengthBit, COLOR_ID ) ) triangle.colorA  = ctx.getInt();
+        if( contains( optionLengthBit, COLOR_ID ) ) triangle.colorID = ctx.getInt();
         if( contains( optionLengthBit, COLOR_A ) )  triangle.colorA  = ctx.getInt();
         if( contains( optionLengthBit, COLOR_B ) )  triangle.colorB  = ctx.getInt();
         if( contains( optionLengthBit, COLOR_C ) )  triangle.colorC  = ctx.getInt();
-        if( contains( optionLengthBit, DEPTH ) )    triangle.depth   = ctx.getInt();
+        if( contains( optionLengthBit, DEPTH ) )    triangle.depth   = ctx.getFloat();
     }
 }

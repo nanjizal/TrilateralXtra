@@ -1,6 +1,7 @@
 package trilateralXtra.serialize;
 import trilateral.tri.Triangle;
 import trilateral.tri.TriangleArray;
+import trilateralXtra.serialize.TriangleSerializer;
 import hxbit.Serializable;
 
 class VectorImage implements hxbit.Serializable {
@@ -21,7 +22,7 @@ class VectorImage implements hxbit.Serializable {
     }
     static function toTriangleArray( arrSerializer: Array<TriangleSerializer>, ?clear: Bool = false ): TriangleArray {
         var arr = new TriangleArray();
-        for( i in 0...arr.length ) {
+        for( i in 0...arrSerializer.length ) {
             arr[ i ] = arrSerializer[ i ].triangle;
             if( clear ) arrSerializer[ i ] = null; // destroy.
         }
