@@ -89,7 +89,7 @@ class ImageDrawing {
             var bu = bx*img1W;
             var bv = by*img1H;
             var cu = cx*img1W;
-            var cv = cy*img1W;
+            var cv = cy*img1H;
             polyPainter.drawImageTriangle( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, image, alpha );
         }
         trace( triangles.length );
