@@ -251,7 +251,7 @@ class PalletNine {
                 , 0xFFfddbc7
                 , 0xFFf7f7f7
                 , 0xFFd1e5f0
-                0xfF92c5de
+                , 0xfF92c5de
                 , 0xFF4393c3
                 , 0xFF2166ac
                 , 0xFFb2182b
