@@ -93,5 +93,31 @@ class ImageDrawing {
             polyPainter.drawImageTriangle( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, image, alpha );
         }
         trace( triangles.length );
+    }    
+    public // work in progress exploring rendering jigsaw pieces, likely to change...
+    function renderImageTrianglesOffset( scale: Float, dx: Float, dy: Float, ex: Float, ey: Float, ?alpha: Float = 1. ){
+        var tri: Triangle;
+        var triangles   = fillDraw.triangles;
+        var colors      = fillDraw.colors;
+        //PolyPainter.bufferSize = triangles.length;
+        var img1W = 1/image.width;
+        var img1H = 1/image.height;
+        for( i in 0...Std.int( triangles.length ) ){
+            tri = triangles[ i ];
+            var ax = tri.ax * scale + dx;
+            var ay = tri.ay * scale + dy;
+            var bx = tri.bx * scale + dx;
+            var by = tri.by * scale + dy;
+            var cx = tri.cx * scale + dx;
+            var cy = tri.cy * scale + dy;
+            var au = ( ax + ex )*img1W;
+            var av = ( ay + ey )*img1H;
+            var bu = ( bx + ex )*img1W;
+            var bv = ( by + ey )*img1H;
+            var cu = ( cx + ex )*img1W;
+            var cv = ( cy + ey )*img1H;
+            polyPainter.drawImageTriangle( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, image, alpha );
+        }
+        trace( triangles.length );
     }
 }
