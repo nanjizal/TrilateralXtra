@@ -85,11 +85,18 @@ class PolyPainter{
         gradProjMatrix  = gradientPipe.getConstantLocation( "projectionMatrix" );
         textureLocation = imagePipe.getTextureUnit( "tex" );
     }
-    public function begin(clear: Bool = true, clearColor: Color = null): Void {
+    public function begin( shaderMode_: ShaderMode, clear: Bool = true, clearColor: Color = null ): Void {
         if( g == null ) return;
+        shaderMode = shaderMode_;
         g.begin();
         if ( clear ) g.clear( clearColor );
         getProjectionMatrix();
+    }
+    public function changeShaderMode( shaderMode_: ShaderMode ): Void {
+        if( shaderMode != shaderMode_ ){
+            shaderMode = shaderMode_;
+            flush();
+        }
     }
     public function clear( color: Color = null ): Void {
         if( g == null ) return;
@@ -199,7 +206,7 @@ class PolyPainter{
     }
     public inline function drawGradientTriangle( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
                                     ,     color0: Color, color1: Color, color2: Color, ?alpha: Float = 1. ){
-        if( shaderMode == ImageMode ) flush();
+        //if( shaderMode == ImageMode ) flush();
         if( alpha != 1. ){
             color0.A = alpha;
             color1.A = alpha;
@@ -248,7 +255,7 @@ class PolyPainter{
     public inline function drawImageTriangleGradient( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
                                     ,  au: Float, av: Float, bu: Float, bv: Float, cu: Float, cv: Float
                                     , img: Image, colorA: Color, colorB: Color, colorC: Color, ?alpha: Float = 1. ){
-        if( imgLast != img || shaderMode == GradientMode ) flush();
+        if( imgLast != img ) flush(); // || shaderMode == GradientMode ) flush();  No longer protection against wrong shaderMode.
         if( alpha != 1. ){
             colorA.A = alpha;
             colorB.A = alpha;
