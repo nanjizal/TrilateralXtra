@@ -4,7 +4,7 @@ import kha.Color;
 import kha.Image;
 import kha.graphics4.TextureAddressing;
 import kha.graphics4.DepthStencilFormat;
-//import polyPainter.PolyPainter;
+import trilateralXtra.kDrawing.PolyPainter;
 import trilateral.tri.TriangleArray;
 import trilateral.tri.Triangle;
 import trilateral.path.Fine;
@@ -29,12 +29,12 @@ class ImageDrawing {
     function startImage(){
         if( image == null ) return;
         polyPainter.canvas = image;
-        polyPainter.begin( true, Color.Transparent );
+        polyPainter.begin( ImageMode, true, Color.Transparent );
     }
     public
     function startFrame( framebuffer: Framebuffer ){
         polyPainter.framebuffer = framebuffer;
-        polyPainter.begin( true, Color.Transparent );
+        polyPainter.begin( ImageMode, true, Color.Transparent );
     }
     public function end() polyPainter.end();
     public // perhaps use matrix instead?
@@ -120,4 +120,5 @@ class ImageDrawing {
         }
         //trace( triangles.length );
     }
+}
 }
