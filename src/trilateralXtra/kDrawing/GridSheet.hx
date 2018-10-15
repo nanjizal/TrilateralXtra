@@ -1,5 +1,6 @@
 package trilateralXtra.kDrawing;
 import kha.Image;
+import kha.Color;
 import kha.graphics2.Graphics;
 import kha.math.FastMatrix3;
 typedef GridSheetDef = {
@@ -15,6 +16,7 @@ typedef GridItemDef = {
     var x: Float;
     var y: Float;
     var alpha: Float;
+    var color: Color;
     var transform: FastMatrix3;
 }
 typedef GridItems = {
@@ -52,12 +54,12 @@ class GridSheet{
         scaleY      = gi.scaleY;
         image       = gi.image;
     }
-    public function renderGrid( g: Graphics, gridItems: GridItems ){
+    public function renderGrid( g: Graphics, gridItems: GridItems, ?outline: Bool = false ){
         var p: { x: Float, y: Float };
         var alpha: Float;
         for( col in 0...totalCols ){
             for( row in 0...totalRows ){
-                renderFrame( g, gridItems, row, col );
+                renderFrame( g, gridItems, col, row, outline );
             }
         }
         // assume to reset it to 1.
@@ -68,15 +70,22 @@ class GridSheet{
         renderFrame( g, gridItems, r, c );
         advanceFrame();
     }
-    inline function renderFrame( g: Graphics, gridItems: GridItems, row: Int, col: Int ){
+    inline function renderFrame( g: Graphics, gridItems: GridItems, row: Int, col: Int, ?outline: Bool = false ){
         var item = gridItems.getItem( row, col );
         g.opacity = item.alpha;
         g.transformation = item.transform;
+        if( outline ){
+            g.color = Color.Red;
+            g.drawRect( item.x, item.y, gridX, gridY, 1 );
+            g.color = item.color;
+        }
+        g.color = item.color;
         g.drawScaledSubImage( image
                             , row*gridX + dx, col*gridY + dy
                             , gridX, gridY
                             , item.x, item.y
                             , gridX * scaleX, gridY * scaleY );
+        g.color = Color.White;
     }
     inline function advanceFrame(){
         if( count == totalCount ){
@@ -94,21 +103,23 @@ class GridSheet{
     }
     // default one to give a grid layout.
     inline function getItem( row: Int, col: Int ): GridItemDef {
-        return { x: scaleX*row*gridX, y: scaleY*col*gridY, alpha: 1., transform: FastMatrix3.identity() };
+        return { x: scaleX*row*gridX, y: scaleY*col*gridY, alpha: 1., color: Color.White, transform: FastMatrix3.identity() };
     }
 }
 class SequenceSprite{
     public var x: Float = 0;
     public var y: Float = 0;
+    public var color: Color = Color.White;
     public var alpha: Float = 0;
     public var matrix: FastMatrix3;
-    public function new( x_: Float, y_: Float, alpha_: Float, matrix_: FastMatrix3 ){
+    public function new( x_: Float, y_: Float, color_: Color, alpha_: Float, matrix_: FastMatrix3 ){
         x = x_;
         y = y_;
+        color = color_;
         alpha = alpha_;
         matrix = matrix_;
     }
     inline function getItem( row: Int, col: Int ): GridItemDef {
-        return { x: x, y: y, alpha: alpha, transform: matrix };
+        return { x: x, y: y, color: color, alpha: alpha, transform: matrix };
     }
 }
