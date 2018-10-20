@@ -99,7 +99,7 @@ class GridSheet{
         });
     } 
     public function renderSequence( g: Graphics, gridItems: GridItems ){
-        renderFrame( g, gridItems, r, c );
+        renderFrame( g, gridItems, c, r );
         advanceFrame();
     }
     inline function renderItem( g: Graphics, item: GridItemDef, col: Int, row: Int, ?outline: Bool = false ){
@@ -120,7 +120,7 @@ class GridSheet{
     }
     
     inline function renderFrame( g: Graphics, gridItems: GridItems, col: Int, row: Int, ?outline: Bool = false ){
-        var item = gridItems.getItem( row, col );
+        var item = gridItems.getItem( col, row );
         g.opacity = item.alpha;
         g.transformation = item.transform;
         if( outline ){
@@ -139,12 +139,12 @@ class GridSheet{
     inline function advanceFrame(){
         if( count == totalCount ){
             count = 0;
-            r++;
-            if( r > totalRows - 1 ){
-                r = 0;
-                c++;
-                if( c > totalCols - 1 ){
-                    c = 0;
+            c++;
+            if( c > totalCols - 1 ){
+                c = 0;
+                r++;
+                if( r > totalRows - 1 ){
+                    r = 0;
                 }
             }
         }
