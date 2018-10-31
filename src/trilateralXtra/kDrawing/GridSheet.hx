@@ -8,6 +8,7 @@ typedef GridSheetDef = {
     var gridY:      Float;
     var totalRows:  Int;
     var totalCols:  Int;
+    var inputScale: Float;
     var scaleX:     Float;
     var scaleY:     Float;
     var image:      Image;
@@ -35,6 +36,7 @@ class GridSheet{
     public var dy = 0.;
     var gridX:      Float;
     var gridY:      Float;
+    var inputScale: Float;
     var scaleX:     Float;
     var scaleY:     Float;
     var totalRows:  Int;
@@ -58,6 +60,7 @@ class GridSheet{
         totalCols   = gi.totalCols;
         scaleX      = gi.scaleX;
         scaleY      = gi.scaleY;
+        inputScale  = gi.inputScale;
         image       = gi.image;
     }
     public function renderGrid( g: Graphics, gridItems: GridItems, ?outline: Bool = false ){
@@ -107,13 +110,13 @@ class GridSheet{
         g.transformation = item.transform;
         if( outline ){
             g.color = Color.Red;
-            g.drawRect( item.x, item.y, gridX, gridY, 1 );
+            g.drawRect( item.x, item.y, gridX * scaleX, gridY * scaleY, 1 );
             g.color = item.color;
         }
         g.color = item.color;
         g.drawScaledSubImage( image
-                            , col*gridX + dx, row*gridY + dy
-                            , gridX, gridY
+                            , inputScale*( col*gridX + dx ), inputScale*( row*gridY + dy )
+                            , gridX*inputScale, gridY*inputScale
                             , item.x, item.y
                             , gridX * scaleX, gridY * scaleY );
         g.color = Color.White;
@@ -125,13 +128,13 @@ class GridSheet{
         g.transformation = item.transform;
         if( outline ){
             g.color = Color.Red;
-            g.drawRect( item.x, item.y, gridX, gridY, 1 );
+            g.drawRect( item.x, item.y,gridX * scaleX, gridY * scaleY, 1 );
             g.color = item.color;
         }
         g.color = item.color;
         g.drawScaledSubImage( image
-                            , col*gridX + dx, row*gridY + dy
-                            , gridX, gridY
+                            , inputScale*( col*gridX + dx ), inputScale*( row*gridY + dy )
+                            , gridX*inputScale, gridY*inputScale
                             , item.x, item.y
                             , gridX * scaleX, gridY * scaleY );
         g.color = Color.White;
