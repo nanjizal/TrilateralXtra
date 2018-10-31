@@ -38,7 +38,7 @@ class ImageDrawing {
     }
     public function end() polyPainter.end();
     public // perhaps use matrix instead?
-    function renderTriangles( scale: Float, cx: Float, cy: Float, ?alpha: Float = 1 ){
+    function renderTriangles( scale: Float, cx: Float, cy: Float, alpha: Float = 1 ){
         var tri: Triangle;
         var triangles   = fillDraw.triangles;
         var colors      = fillDraw.colors;
@@ -53,7 +53,7 @@ class ImageDrawing {
         //trace( triangles.length );
     }
     public // perhaps use matrix instead?
-    function renderGradientTriangles( scale: Float, cx: Float, cy: Float, ?alpha: Float = 1 ){
+    function renderGradientTriangles( scale: Float, cx: Float, cy: Float, alpha: Float = 1 ){
         var tri: Triangle;
         var triangles   = fillDraw.triangles;
         var colors      = fillDraw.colors;
@@ -69,7 +69,7 @@ class ImageDrawing {
         //trace( triangles.length );
     }
     public // perhaps use matrix instead?
-    function renderImageTriangles( img: Image, scale: Float, dx: Float, dy: Float, ?alpha: Float = 1. ){
+    function renderImageTriangles( img: Image, scale: Float, dx: Float, dy: Float, alpha: Float = 1. ){
         var tri: Triangle;
         var triangles   = fillDraw.triangles;
         var colors      = fillDraw.colors;
@@ -94,31 +94,30 @@ class ImageDrawing {
         }
         //trace( triangles.length );
     }
-    public // perhaps use matrix instead?
-    function renderImageTrianglesOffset( img: Image, scale: Float, dx: Float, dy: Float, ex: Float, ey: Float, ?alpha: Float = 1. ){
+    public
+    function renderImageTrianglesOffset( img: Image, canvasScale: Float, imageScale: Float, dx: Float, dy: Float, alpha: Float = 1. ){
         var tri: Triangle;
         var triangles   = fillDraw.triangles;
         var colors      = fillDraw.colors;
-        //PolyPainter.bufferSize = triangles.length;
-        var img1W = 1/img.width;
-        var img1H = 1/img.height;
+        var scale       = 1/imageScale;
+        var img1W = 1/(img.width);
+        var img1H = 1/(img.height);
         for( i in 0...Std.int( triangles.length ) ){
             tri = triangles[ i ];
-            var ax = tri.ax * scale + dx;
-            var ay = tri.ay * scale + dy;
-            var bx = tri.bx * scale + dx;
-            var by = tri.by * scale + dy;
-            var cx = tri.cx * scale + dx;
-            var cy = tri.cy * scale + dy;
-            var au = ( ax + ex )*img1W;
-            var av = ( ay + ey )*img1H;
-            var bu = ( bx + ex )*img1W;
-            var bv = ( by + ey )*img1H;
-            var cu = ( cx + ex )*img1W;
-            var cv = ( cy + ey )*img1H;
+            var ax = canvasScale*( tri.ax + dx );
+            var ay = canvasScale*( tri.ay + dy );
+            var bx = canvasScale*( tri.bx + dx );
+            var by = canvasScale*( tri.by + dy );
+            var cx = canvasScale*( tri.cx + dx );
+            var cy = canvasScale*( tri.cy + dy );
+            var au = ( tri.ax * scale )*img1W;
+            var av = ( tri.ay * scale )*img1H;
+            var bu = ( tri.bx * scale )*img1W;
+            var bv = ( tri.by * scale )*img1H;
+            var cu = ( tri.cx * scale )*img1W;
+            var cv = ( tri.cy * scale )*img1H;
             polyPainter.drawImageTriangle( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, img, alpha );
         }
         //trace( triangles.length );
     }
-}
 }
