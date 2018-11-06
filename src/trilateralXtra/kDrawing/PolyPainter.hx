@@ -237,21 +237,62 @@ class PolyPainter{
         posGradient = pos + 21;
         gradBufferIndex++;
     }
-    public inline
-    function drawImage( img: Image, ?x: Float = 0, ?y: Float = 0, ?w: Null<Float>, ?h: Null<Float>, alpha: Float = 1. ){
+    public function drawImage( img: Image, ?x: Float = 0, ?y: Float = 0, ?w: Null<Float>, ?h: Null<Float>, ?alpha: Float = 1. ){
         if( w == null ) w = img.width;
         if( h == null ) h = img.height;
         drawImageTriangle( x, y, x+w, y, x+w, y+h, 0, 0, 1, 0, 1, 1, img, alpha );
         drawImageTriangle( x, y, x+w, y+h, x, y+h, 0, 0, 1, 1, 0, 1, img, alpha );
     }
-    public inline
-    function drawImageTriangle( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
+    public function drawImageTriangle( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
                                     ,  au: Float, av: Float, bu: Float, bv: Float, cu: Float, cv: Float
-                                    , img: Image, alpha: Float = 1.){
+                                    , img: Image, ?alpha: Float = 1.){
         var color = Color.White;
         if( alpha != 1. ) color.A = alpha;
         drawImageTriangleGradient( ax, ay, bx, by, cx, cy, au, av, bu, bv, cu, cv, img, color, color, color );
     }
+    public inline
+    function drawImageGridItemColor( img: Image, col: Float, row: Float
+                              , x: Float, y: Float, gridW: Float, gridH: Float
+                              ,  imageScale: Float, color: Color = Color.White, alpha: Float = 1. ){
+        var scale = 1/imageScale;
+        var canvasScale = imageScale;
+        var img1W = 1/img.width;
+        var img1H = 1/img.height;
+        x /= canvasScale;
+        y /= canvasScale;
+        col = ( col  )*gridW - x;
+        row = ( row  )*gridH - y;
+        var ax = canvasScale*( x );
+        var ay = canvasScale*( y );
+        var bx = canvasScale*( ( x + gridW ) );
+        var by = canvasScale*( y );
+        var cx = canvasScale*( ( x + gridW ) );
+        var cy = canvasScale*( ( y + gridH ) );
+        var au = ( ax * scale + col )*img1W;
+        var av = ( ay * scale + row )*img1H;
+        var bu = ( bx * scale + col )*img1W;
+        var bv = ( by * scale + row )*img1H;
+        var cu = ( cx * scale + col )*img1W;
+        var cv = ( cy * scale + row )*img1H;
+        drawImageTriangleGradient( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, img, color, color, color, alpha );
+        by = canvasScale*( ( y + gridH ) );
+        cx = canvasScale*( x );
+        bv = ( by * scale + row )*img1H;
+        cu = ( cx * scale + col )*img1W;
+        drawImageTriangleGradient( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, img, color, color, color, alpha );
+    }
+    public inline
+    function drawImageGridIndexColor( img: Image, id: Int
+                              , x: Float, y: Float, gridW: Float, gridH: Float
+                              ,  imageScale: Float, color: Color = Color.White, alpha: Float = 1. ){
+        var colTot: Float = Math.floor( img.width/gridW );
+        var rowTot: Float = Math.floor( img.height/gridH );
+        var row: Float = Math.floor( id/colTot );
+        var col: Float = id - row*colTot;
+        drawImageGridItemColor( img, col, row, x, y, gridW, gridH, imageScale, color, alpha );
+    }
+    
+    
     public inline
     function drawImageGridItem( img: Image, col: Float, row: Float
                               , x: Float, y: Float, gridW: Float, gridH: Float
@@ -287,8 +328,8 @@ class PolyPainter{
     function drawImageGridIndex( img: Image, id: Int
                               , x: Float, y: Float, gridW: Float, gridH: Float
                               ,  imageScale: Float, alpha: Float = 1. ){
-        var colTot: Float = Math.floor( img.width/gridW ) + 1;
-        var rowTot: Float = Math.floor( img.height/gridH ) + 1;
+        var colTot: Float = Math.floor( img.width/gridW );
+        var rowTot: Float = Math.floor( img.height/gridH );
         var row: Float = Math.floor( id/colTot );
         var col: Float = id - row*colTot;
         drawImageGridItem( img, col, row, x, y, gridW, gridH, imageScale, alpha );
@@ -406,7 +447,7 @@ class PolyPainter{
         posImage    = 0;
         verticesImg    = vertexBufferImage.lock();
     }
-    function flush(){
+    public function flush(){
         if( imgBufferIndex  > 0 ) drawBufferImage();
         if( gradBufferIndex > 0 ) drawBufferGradient();
     }
