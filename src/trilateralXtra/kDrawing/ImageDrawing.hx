@@ -68,6 +68,18 @@ class ImageDrawing {
         }
         //trace( triangles.length );
     }
+    public inline
+    function drawImageGridIndex( img: Image, id: Int
+                               , x: Float, y: Float, gridW: Float, gridH: Float
+                               ,  imageScale: Float, alpha: Float = 1. ){
+        polyPainter.drawImageGridIndex( img, id, x, y, gridW, gridH, imageScale, alpha );
+    }
+    public inline
+    function drawImageGridItem( img: Image, col: Float, row: Float
+                              , x: Float, y: Float, gridW: Float, gridH: Float
+                              , imageScale: Float, alpha: Float = 1. ){
+        polyPainter.drawImageGridItem( img, col, row, x, y, gridW, gridH, imageScale, alpha );
+    }
     public // perhaps use matrix instead?
     function renderImageTriangles( img: Image, scale: Float, dx: Float, dy: Float, alpha: Float = 1. ){
         var tri: Triangle;
