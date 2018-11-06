@@ -87,6 +87,47 @@ class PolyPainter {
         g.clear();
     }
     public inline
+    function drawImageGridItem( img: BitmapData, col: Float, row: Float
+                              , x: Float, y: Float, gridW: Float, gridH: Float
+                              ,  imageScale: Float, alpha: Float = 1. ){
+        var scale = 1/imageScale;
+        var canvasScale = imageScale;
+        var img1W = 1/img.width;
+        var img1H = 1/img.height;
+        x /= canvasScale;
+        y /= canvasScale;
+        col = ( col  )*gridW - x;
+        row = ( row  )*gridH - y;
+        var ax = canvasScale*( x );
+        var ay = canvasScale*( y );
+        var bx = canvasScale*( ( x + gridW ) );
+        var by = canvasScale*( y );
+        var cx = canvasScale*( ( x + gridW ) );
+        var cy = canvasScale*( ( y + gridH ) );
+        var au = ( ax * scale + col )*img1W;
+        var av = ( ay * scale + row )*img1H;
+        var bu = ( bx * scale + col )*img1W;
+        var bv = ( by * scale + row )*img1H;
+        var cu = ( cx * scale + col )*img1W;
+        var cv = ( cy * scale + row )*img1H;
+        drawImageTriangle( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, img, alpha );
+        by = canvasScale*( ( y + gridH ) );
+        cx = canvasScale*( x );
+        bv = ( by * scale + row )*img1H;
+        cu = ( cx * scale + col )*img1W;
+        drawImageTriangle( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, img, alpha );
+    }
+    public inline
+    function drawImageGridIndex( img: BitmapData, id: Int
+                              , x: Float, y: Float, gridW: Float, gridH: Float
+                              ,  imageScale: Float, alpha: Float = 1. ){
+        var colTot: Float = Math.floor( img.width/gridW );
+        var rowTot: Float = Math.floor( img.height/gridH );
+        var row: Float = Math.floor( id/colTot );
+        var col: Float = id - row*colTot;
+        drawImageGridItem( img, col, row, x, y, gridW, gridH, imageScale, alpha );
+    }
+    public inline
     function drawImageTriangleGradient( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
                                      ,  au: Float, av: Float, bu: Float, bv: Float, cu: Float, cv: Float
                                      ,  img: BitmapData, colorA: Int, colorB: Int, colorC: Int, alpha: Float = 1. ){
