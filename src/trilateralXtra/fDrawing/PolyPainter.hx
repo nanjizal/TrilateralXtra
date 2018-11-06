@@ -87,6 +87,48 @@ class PolyPainter {
         g.clear();
     }
     public inline
+    function drawImageGridItemColor( img: BitmapData, col: Float, row: Float
+                              , x: Float, y: Float, gridW: Float, gridH: Float
+                              ,  imageScale: Float, color: Int = 0xFFFFFFFF, alpha: Float = 1. ){
+        var scale = 1/imageScale;
+        var canvasScale = imageScale;
+        var img1W = 1/img.width;
+        var img1H = 1/img.height;
+        x /= canvasScale;
+        y /= canvasScale;
+        col = ( col  )*gridW - x;
+        row = ( row  )*gridH - y;
+        var ax = canvasScale*( x );
+        var ay = canvasScale*( y );
+        var bx = canvasScale*( ( x + gridW ) );
+        var by = canvasScale*( y );
+        var cx = canvasScale*( ( x + gridW ) );
+        var cy = canvasScale*( ( y + gridH ) );
+        var au = ( ax * scale + col )*img1W;
+        var av = ( ay * scale + row )*img1H;
+        var bu = ( bx * scale + col )*img1W;
+        var bv = ( by * scale + row )*img1H;
+        var cu = ( cx * scale + col )*img1W;
+        var cv = ( cy * scale + row )*img1H;
+        drawImageTriangleGradient( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, img, color,color, color, alpha );
+        by = canvasScale*( ( y + gridH ) );
+        cx = canvasScale*( x );
+        bv = ( by * scale + row )*img1H;
+        cu = ( cx * scale + col )*img1W;
+        drawImageTriangleGradient( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, img, color, color, color, alpha );
+    }
+    public inline
+    function drawImageGridIndexColor( img: BitmapData, id: Int
+                              , x: Float, y: Float, gridW: Float, gridH: Float
+                              ,  imageScale: Float, color: Int = 0xFFFFFFFF, alpha: Float = 1. ){
+        var colTot: Float = Math.floor( img.width/gridW ) + 1;
+        var rowTot: Float = Math.floor( img.height/gridH ) + 1;
+        var row: Float = Math.floor( id/colTot );
+        var col: Float = id - row*colTot;
+        drawImageGridItemColor( img, col, row, x, y, gridW, gridH, imageScale, color, alpha );
+    }
+    
+    public inline
     function drawImageGridItem( img: BitmapData, col: Float, row: Float
                               , x: Float, y: Float, gridW: Float, gridH: Float
                               ,  imageScale: Float, alpha: Float = 1. ){
