@@ -287,8 +287,8 @@ class PolyPainter{
     function drawImageGridIndex( img: Image, id: Int
                               , x: Float, y: Float, gridW: Float, gridH: Float
                               ,  imageScale: Float, alpha: Float = 1. ){
-        var colTot: Float = Math.floor( img.width/gridW );
-        var rowTot: Float = Math.floor( img.height/gridH );
+        var colTot: Float = Math.floor( img.width/gridW ) + 1;
+        var rowTot: Float = Math.floor( img.height/gridH ) + 1;
         var row: Float = Math.floor( id/colTot );
         var col: Float = id - row*colTot;
         drawImageGridItem( img, col, row, x, y, gridW, gridH, imageScale, alpha );
