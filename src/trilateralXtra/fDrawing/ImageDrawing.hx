@@ -65,6 +65,19 @@ class ImageDrawing {
         //trace( triangles.length );
     }
     public inline
+    function drawImageGridIndexColor( img: BitmapData, id: Int
+                              , x: Float, y: Float, gridW: Float, gridH: Float
+                              ,  imageScale: Float, color: Int = 0xFFFFFFFF, alpha: Float = 1. ){
+        polyPainter.drawImageGridIndexColor( img, id, x, y, gridW, gridH, imageScale, color, alpha );
+    }
+    public inline
+    function drawImageGridItemColor( img: BitmapData, col: Float, row: Float
+                              , x: Float, y: Float, gridW: Float, gridH: Float
+                              ,  imageScale: Float, color: Int = 0xFFFFFFFF, alpha: Float = 1. ){
+        polyPainter.drawImageGridItemColor( img, col, row, x, y, gridW, gridH, imageScale, color, alpha );
+    }
+    
+    public inline
     function drawImageGridIndex( img: BitmapData, id: Int
                               , x: Float, y: Float, gridW: Float, gridH: Float
                               ,  imageScale: Float, alpha: Float = 1. ){
