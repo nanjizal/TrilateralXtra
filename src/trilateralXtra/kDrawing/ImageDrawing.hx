@@ -68,13 +68,14 @@ class ImageDrawing {
     function drawImageGridIndexColor( img: Image, id: Int
                                , x: Float, y: Float, gridW: Float, gridH: Float
                                , imageScale: Float, color: Color = Color.White, alpha: Float = 1. ){
-        polyPainter.drawImageGridIndex( img, id, x, y, gridW, gridH, imageScale, color, alpha );
+        polyPainter.drawImageGridIndexColor( img, id, x, y, gridW, gridH, imageScale, color, alpha );
     }
     public inline
-    function drawImageGridItem( img: Image, col: Float, row: Float
+    function drawImageGridItemColor( img: Image, col: Float, row: Float
                               , x: Float, y: Float, gridW: Float, gridH: Float
                               , imageScale: Float, color: Color = Color.White, alpha: Float = 1. ){
-        polyPainter.drawImageGridItem( img, col, row, x, y, gridW, gridH, imageScale, color, alpha );
+        polyPainter.drawImageGridItemColor( img, col, row, x, y, gridW, gridH, imageScale, color, alpha );
+    }
     }
     
     public // perhaps use matrix instead?
