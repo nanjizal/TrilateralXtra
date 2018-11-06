@@ -253,7 +253,7 @@ class PolyPainter{
         drawImageTriangleGradient( ax, ay, bx, by, cx, cy, au, av, bu, bv, cu, cv, img, color, color, color );
     }
     public inline
-    function drawImageGridItem( img: BitmapData, col: Float, row: Float
+    function drawImageGridItem( img: Image, col: Float, row: Float
                               , x: Float, y: Float, gridW: Float, gridH: Float
                               ,  imageScale: Float, alpha: Float = 1. ){
         var scale = 1/imageScale;
@@ -284,7 +284,7 @@ class PolyPainter{
         drawImageTriangle( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, img, alpha );
     }
     public inline
-    function drawImageGridIndex( img: BitmapData, id: Int
+    function drawImageGridIndex( img: Image, id: Int
                               , x: Float, y: Float, gridW: Float, gridH: Float
                               ,  imageScale: Float, alpha: Float = 1. ){
         var colTot: Float = Math.floor( img.width/gridW );
