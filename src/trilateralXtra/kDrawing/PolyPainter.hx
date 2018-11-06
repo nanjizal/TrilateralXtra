@@ -201,11 +201,11 @@ class PolyPainter{
         }
     }
     public function drawFillTriangle( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
-                                    ,     color: Color, ?alpha: Float = 1. ){
+                                    ,     color: Color, alpha: Float = 1. ){
         drawGradientTriangle( ax, ay, bx, by, cx, cy, color, color, color, alpha );
     }
     public inline function drawGradientTriangle( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
-                                    ,     color0: Color, color1: Color, color2: Color, ?alpha: Float = 1. ){
+                                    ,     color0: Color, color1: Color, color2: Color, alpha: Float = 1. ){
         //if( shaderMode == ImageMode ) flush();
         if( alpha != 1. ){
             color0.A = alpha;
@@ -237,24 +237,67 @@ class PolyPainter{
         posGradient = pos + 21;
         gradBufferIndex++;
     }
-    public function drawImage( img: Image, ?x: Float = 0, ?y: Float = 0, ?w: Null<Float>, ?h: Null<Float>, ?alpha: Float = 1. ){
+    public inline
+    function drawImage( img: Image, ?x: Float = 0, ?y: Float = 0, ?w: Null<Float>, ?h: Null<Float>, alpha: Float = 1. ){
         if( w == null ) w = img.width;
         if( h == null ) h = img.height;
         drawImageTriangle( x, y, x+w, y, x+w, y+h, 0, 0, 1, 0, 1, 1, img, alpha );
         drawImageTriangle( x, y, x+w, y+h, x, y+h, 0, 0, 1, 1, 0, 1, img, alpha );
     }
-    public function drawImageTriangle( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
+    public inline
+    function drawImageTriangle( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
                                     ,  au: Float, av: Float, bu: Float, bv: Float, cu: Float, cv: Float
-                                    , img: Image, ?alpha: Float = 1.){
+                                    , img: Image, alpha: Float = 1.){
         var color = Color.White;
         if( alpha != 1. ) color.A = alpha;
         drawImageTriangleGradient( ax, ay, bx, by, cx, cy, au, av, bu, bv, cu, cv, img, color, color, color );
+    }
+    public inline
+    function drawImageGridItem( img: BitmapData, col: Float, row: Float
+                              , x: Float, y: Float, gridW: Float, gridH: Float
+                              ,  imageScale: Float, alpha: Float = 1. ){
+        var scale = 1/imageScale;
+        var canvasScale = imageScale;
+        var img1W = 1/img.width;
+        var img1H = 1/img.height;
+        x /= canvasScale;
+        y /= canvasScale;
+        col = ( col  )*gridW - x;
+        row = ( row  )*gridH - y;
+        var ax = canvasScale*( x );
+        var ay = canvasScale*( y );
+        var bx = canvasScale*( ( x + gridW ) );
+        var by = canvasScale*( y );
+        var cx = canvasScale*( ( x + gridW ) );
+        var cy = canvasScale*( ( y + gridH ) );
+        var au = ( ax * scale + col )*img1W;
+        var av = ( ay * scale + row )*img1H;
+        var bu = ( bx * scale + col )*img1W;
+        var bv = ( by * scale + row )*img1H;
+        var cu = ( cx * scale + col )*img1W;
+        var cv = ( cy * scale + row )*img1H;
+        drawImageTriangle( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, img, alpha );
+        by = canvasScale*( ( y + gridH ) );
+        cx = canvasScale*( x );
+        bv = ( by * scale + row )*img1H;
+        cu = ( cx * scale + col )*img1W;
+        drawImageTriangle( ax, ay, bx, by, cx, cy,  au, av, bu, bv, cu, cv, img, alpha );
+    }
+    public inline
+    function drawImageGridIndex( img: BitmapData, id: Int
+                              , x: Float, y: Float, gridW: Float, gridH: Float
+                              ,  imageScale: Float, alpha: Float = 1. ){
+        var colTot: Float = Math.floor( img.width/gridW );
+        var rowTot: Float = Math.floor( img.height/gridH );
+        var row: Float = Math.floor( id/colTot );
+        var col: Float = id - row*colTot;
+        drawImageGridItem( img, col, row, x, y, gridW, gridH, imageScale, alpha );
     }
     // this is mainly for if you want to alpha out part of an image
     // still uses image shader.
     public inline function drawImageTriangleGradient( ax: Float, ay: Float, bx: Float, by: Float, cx: Float, cy: Float 
                                     ,  au: Float, av: Float, bu: Float, bv: Float, cu: Float, cv: Float
-                                    , img: Image, colorA: Color, colorB: Color, colorC: Color, ?alpha: Float = 1. ){
+                                    , img: Image, colorA: Color, colorB: Color, colorC: Color, alpha: Float = 1. ){
         if( imgLast != img ) flush(); // || shaderMode == GradientMode ) flush();  No longer protection against wrong shaderMode.
         if( alpha != 1. ){
             colorA.A = alpha;
