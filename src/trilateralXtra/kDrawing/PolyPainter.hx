@@ -41,7 +41,7 @@ class PolyPainter{
     public static var bufferSize:       Int             = 100000; // need to set this high to work with lots of platforms
     static inline var vertexSizeImage:  Int             = 9;
     static inline var vertexSizeGradient: Int           = 7;
-    var projectionMatrix:               FastMatrix4;
+    public var projectionMatrix:               FastMatrix4;
     static var imagePipe:               PipelineState   = null;
     static var gradientPipe:            PipelineState   = null;
     static var strucImg:                VertexStructure = null;
@@ -76,6 +76,8 @@ class PolyPainter{
     public var pipeline( get, set ):    PipelineState;
     public var sourceBlend:             BlendingFactor = BlendingFactor.Undefined;
     public var destinationBlend:        BlendingFactor = BlendingFactor.Undefined;
+    var f:                    Framebuffer;
+    var c:                         Canvas;
     public function new(){
         gradBufferIndex = 0;
         imgBufferIndex  = 0;
@@ -378,9 +380,17 @@ class PolyPainter{
         imgBufferIndex++;
     }
     
-    public var framebuffer( null, set ): Canvas;
-    function set_framebuffer( f: Canvas ): Canvas {
-        g               = f.g4;
+    public var g4( get, null ): kha.graphics4.Graphics;
+    public inline function get_g4(): kha.graphics4.Graphics {
+        return ( c != null )? c.g4: f.g4;
+    }
+    
+    
+    public var framebuffer( null, set ): Framebuffer;
+    function set_framebuffer( f_: Framebuffer ): Framebuffer {
+        g               = f_.g4;
+        c               = null;
+        f               = f_;
         isFramebuffer   = true;
         shaderMode      = ImageMode;
         width           = f.width;
@@ -389,8 +399,10 @@ class PolyPainter{
     }
     
     public var canvas( null, set ): Canvas;
-    function set_canvas( c: Canvas ): Canvas {
-        g               = c.g4;
+    function set_canvas( c_: Canvas ): Canvas {
+        g               = c_.g4;
+        f               = null;
+        c               = c_;
         isFramebuffer   = false;
         shaderMode      = GradientMode;
         width           = c.width;
