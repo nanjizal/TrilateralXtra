@@ -463,4 +463,21 @@ class PolyPainter{
         if( imgBufferIndex  > 0 ) drawBufferImage();
         if( gradBufferIndex > 0 ) drawBufferGradient();
     }
+    /*
+    a b c
+    d e f
+    g h i
+
+    a b 0 c
+    d e 0 f
+    0 0 0 0
+    g h 0 i
+    */
+    public static inline
+    function matrix3to4( m: FastMatrix3 ): FastMatrix4 {
+        return new FastMatrix4(  m._00,  m._10,  0.,  m._20
+                              ,  m._01,  m._11,  0.,  m._21
+                              ,     0.,    0.,   1.,     0.
+                              ,  m._02,  m._12,  0,   m._22 );
+    }
 }
