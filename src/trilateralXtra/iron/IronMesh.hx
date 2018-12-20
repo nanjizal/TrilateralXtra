@@ -30,9 +30,10 @@ class IronMesh {
         var len = Std.int( triangles.length );
         vb  = new kha.arrays.Float32Array( Std.int( 9*len ) );
         ib  = new kha.arrays.Uint32Array(  Std.int( 3*len ) );
-        col = new kha.arrays.Float32Array( Std.int( 3*len ) );
+        col = new kha.arrays.Float32Array( Std.int( 9*len ) );
         var j = 0;
         var k = 0;
+        var c = 0;
         var scaleX = 1/wid;
         var scaleY = 1/hi;
         var offX = wid/2;
@@ -54,11 +55,20 @@ class IronMesh {
             vb[ j++ ] = -( tri.cy - offY ) * scaleY;
             vb[ j++ ] = z;
             color = colors[ tri.colorID ];
-            col[ k ] = _r( color );
+            r = _r( color );
+            g = _g( color );
+            b = _b( color );
+            col[ c++ ] = r;
+            col[ c++ ] = g;
+            col[ c++ ] = b;
+            col[ c++ ] = r;
+            col[ c++ ] = g;
+            col[ c++ ] = b;
+            col[ c++ ] = r;
+            col[ c++ ] = g;
+            col[ c++ ] = b;
             ib[ k ] = k++;
-            col[ k ] = _g( color );
             ib[ k ] = k++;
-            col[ k ] = _b( color );
             ib[ k ] = k++;
         }
     }
@@ -88,23 +98,27 @@ class IronMesh {
     }
     function triangleMeshCreate(): TMeshData{
         return {  name: "TriangleMesh"
-               ,  vertex_arrays: [ { attrib: "pos", size: 3, values: vb } ]
+               ,  vertex_arrays: [   { attrib: "pos", size: 3, values: vb }
+                                   , { attrib:"col", size: 3, values: col }
+                                   ]
                ,  index_arrays: [ { material: 0, values: ib } ] };
     }
     function materialDataCreate(): TMaterialData {
-        return { name: "MyMaterial", shader: "MyShader"
-               , contexts: [{ name: meshName, bind_constants: [ { name: "color", vec3: col } ] }] };
+        return { name: "MyMaterial", shader: "MyShader",contexts: [{ name: meshName, bind_constants: [] }] };
+              // , contexts: [{ name: meshName, bind_constants: [ { name: "color", vec3: col } ] }] };
     }
     function shaderDataCreate(): TShaderData {
         return { name: "MyShader",
                  contexts: [{  name: meshName
-                             , vertex_shader: "mesh.vert"
-                             , fragment_shader: "mesh.frag"
+                             , vertex_shader: "mesh2.vert"
+                             , fragment_shader: "mesh2.frag"
                              , compare_mode: "less"
                              , cull_mode: "clockwise"
                              , depth_write: true
-                             , constants: [ { name: "color", type: "vec3" } ]
-                             , vertex_structure: [ { name: "pos", size: 3 } ] }]
+                             /*, constants: [ { name: "color", type: "vec3" } ]*/   
+                             , vertex_structure: [ {name:"pos",size:3 }
+                                                 , {name:"col",size:3 } ]   
+                             }]
         };
     }
     function sceneReady( scene: Object ) {
