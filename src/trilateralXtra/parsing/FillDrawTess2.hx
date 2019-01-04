@@ -4,7 +4,6 @@ import trilateral.tri.Triangle;
 import trilateral.path.Fine;
 import trilateral.path.Base;
 import hxGeomAlgo.Tess2;
-import hxPolyK.PolyK;// for array Triple
 import trilateral.parsing.FillDraw;
 class FillDrawTess2 extends FillDraw {
     public
@@ -14,6 +13,8 @@ class FillDrawTess2 extends FillDraw {
     override
     function fillFunc( p: Array<Array<Float>> ):TfillDatas {
         var res = Tess2.tesselate( p, null, ResultType.POLYGONS, 3 );
+        var vert = res.vertices;
+        var tri = res.elements;
         return { vert: vert, tri: tri }
     }
     override public

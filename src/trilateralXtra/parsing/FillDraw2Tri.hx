@@ -3,7 +3,6 @@ import trilateral.tri.TriangleArray;
 import trilateral.tri.Triangle;
 import trilateral.path.Base;
 import trilateral.path.Fine;
-import hxPolyK.PolyK;
 import org.poly2tri.VisiblePolygon;
 import trilateral.parsing.FillDraw;
 class FillDraw2Tri extends FillDraw {
