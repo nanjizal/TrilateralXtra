@@ -188,7 +188,7 @@ class MartianColours{
     var dioxazine( get, null ): Array<Dioxazine>;
     public static inline
     function get_dioxazine(): Array<Dioxazine> {
-        return [ rosaDeFrance, lavender, hanPurple, darkHanPurple ];
+        return [ rosaDeFrance, lavender, hanPurple, darkHanPurple, Dioxazine.dioxazine ];
     }
     public static
     var violet( get, null ): Array<Violet>;
